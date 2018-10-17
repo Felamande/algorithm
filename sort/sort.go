@@ -93,7 +93,7 @@ func quickSort(s sortable) {
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
-	for _, N := range []int{4000000, 8000000} {
+	for _, N := range []int{4000000, 8000000, 16000000} {
 		ss := makeInts(func(int) int { return rand.Intn(1000) }, N)
 		// ss = makeInts(func(i int) int { return i }, N)
 		// ss = makeInts(func(i int) int { return 1 }, N)
