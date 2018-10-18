@@ -5,11 +5,6 @@ import (
 	"math"
 )
 
-func main() {
-	a := genSeq(seqt(3))
-	printA(a)
-}
-
 func invert(a []int) {
 	l := len(a)
 	for i := 0; i <= l/2; i++ {
