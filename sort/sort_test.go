@@ -42,3 +42,16 @@ func TestGenArr(t *testing.T) {
 		el = 9*(1<<(2*k)) - 9*(1<<k) + 1
 	}
 }
+
+func TestRand(t *testing.T) {
+	M := 300
+	N := M * 10000
+	rand.Seed(time.Now().UnixNano())
+	cnt := make([]int, M)
+	for i := 0; i < N; i++ {
+		r := randn(float64(M), gauss(0.33, 0))
+		cnt[int(r)]++
+	}
+	t.Log(cnt)
+
+}
