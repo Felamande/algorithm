@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"math/rand"
 	"path"
 	"reflect"
@@ -109,11 +110,23 @@ func shSort248(s sortable) {
 	}
 }
 
+func shSortt(seq []int, s sortable) {
+
+	N := s.Len()
+	for _, h := range seq {
+		for i := h; i < N; i++ {
+			for j := i; j >= h && s.Less(j, j-h); j = j - h {
+				s.Swap(j, j-h)
+			}
+		}
+	}
+}
+
 func quickSort(s sortable) {
 
 }
 
-func main() {
+func cmpare() {
 	rand.Seed(time.Now().UnixNano())
 	for N := 40; N < 40000*1<<10; N *= 2 {
 		ss := makeInts(func(int) int { return rand.Intn(1000) }, N)
@@ -130,6 +143,25 @@ func main() {
 		fmt.Println("----------------------------------------------------------------------")
 	}
 
+}
+
+func main() {
+	rand.Seed(time.Now().UnixNano())
+	for N := 40; N < 2000*1<<10; N *= 2 {
+		ss := makeInts(func(int) int { return rand.Intn(1000) }, N)
+		// ss = makeInts(func(i int) int { return i }, N)
+		// ss = makeInts(func(i int) int { return 1 }, N)
+		// ss = makeInts(func(i int) int { return N - i }, N)
+		// ss = makeInts2(1, 2, 4, 3, 5, 6, 8, 7)
+		for t := float64(2.1); t <= 10.2; t += 1 {
+			s := ss.Clone()
+			seq := genSeq(seqt(t))
+			dt := benchmark(func() { shSortt(seq, s) }, 1)
+			swp, cmp := s.Count()
+			fmt.Printf("t=%.3f\tN=%d\tswp=%9d\tcmp=%10d\tt=%v\n", t, N, swp, cmp, dt)
+		}
+		fmt.Println("----------------------------------------------------------------------")
+	}
 }
 
 type Ints struct {
@@ -194,5 +226,31 @@ var arr225 = []int{1698453753, 754868335, 335497038, 149109795, 66271020, 294537
 var arr2p48k = []int{2929815956, 1181377402, 476361856, 192081394, 77452175, 31230716, 12593031,
 	5077835, 2047515, 825611, 332908, 134237, 54128, 21826, 8801, 3549, 1431, 577, 233, 94, 38, 16, 7, 3, 1}
 
-var arrt3 = genSeq(seqt(3))
-var arrt3p5 = genSeq(seqt(3.5))
+func invert(a []int) {
+	l := len(a)
+	for i := 0; i <= l/2; i++ {
+		a[i], a[l-i-1] = a[l-i-1], a[i]
+	}
+}
+
+func printA(a []int) {
+	for _, v := range a {
+		print(v, ",")
+	}
+}
+
+func genSeq(f func(k int) int) (a []int) {
+	h := 0
+	for k := 0; h <= math.MaxInt32; k++ {
+		h = f(k)
+		a = append(a, h)
+	}
+	invert(a)
+	return a
+}
+
+func seqt(t float64) func(k int) int {
+	return func(k int) int {
+		return int(math.Floor(math.Pow(t, float64(k))))
+	}
+}
