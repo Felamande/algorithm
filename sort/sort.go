@@ -126,10 +126,10 @@ func quickSort(s sortable) {
 
 }
 
-func cmpare() {
+func main() {
 	rand.Seed(time.Now().UnixNano())
-	for N := 40; N < 40000*1<<10; N *= 2 {
-		ss := makeInts(func(int) int { return rand.Intn(1000) }, N)
+	for N := 80000; N < 80000*1<<7; N *= 2 {
+		ss := makeInts(func(int) int { return randNormInt(1000) }, N)
 		// ss = makeInts(func(i int) int { return i }, N)
 		// ss = makeInts(func(i int) int { return 1 }, N)
 		// ss = makeInts(func(i int) int { return N - i }, N)
@@ -145,9 +145,9 @@ func cmpare() {
 
 }
 
-func main() {
+func main__() {
 	rand.Seed(time.Now().UnixNano())
-	for N := 40; N < 2000*1<<10; N *= 2 {
+	for N := 20000; N < 20000*1<<3; N *= 2 {
 		ss := makeInts(func(int) int { return rand.Intn(1000) }, N)
 		// ss = makeInts(func(i int) int { return i }, N)
 		// ss = makeInts(func(i int) int { return 1 }, N)

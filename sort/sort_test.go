@@ -43,15 +43,83 @@ func TestGenArr(t *testing.T) {
 	}
 }
 
-func TestRand(t *testing.T) {
-	M := 300
-	N := M * 10000
+func TestRandNorm(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
-	cnt := make([]int, M)
-	for i := 0; i < N; i++ {
-		r := randn(float64(M), gauss(0.33, 0))
-		cnt[int(r)]++
+	max := 100
+	m := make([]int, max)
+	for i := 0; i < 100000; i++ {
+		r := randNormInt(max - 1)
+		m[r]++
 	}
-	t.Log(cnt)
+	t.Log(m)
+}
 
+func BenchmarkRandNorm(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = randNormInt(10000)
+	}
+}
+
+func BenchmarkRandPoissonL10(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = randPoissonInt(10)
+	}
+}
+
+func BenchmarkRandPoissonL100(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = randPoissonInt(100)
+	}
+}
+
+func BenchmarkRandPoissonL200(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = randPoissonInt(200)
+	}
+}
+
+func TestRandPoiss(t *testing.T) {
+	rand.Seed(time.Now().UnixNano())
+	lmd := float64(20)
+	m := make([]int, 100)
+	for i := 0; i < 100000; i++ {
+		r := randPoissonInt(lmd)
+		m[r]++
+	}
+	t.Log(m)
+}
+
+func BenchmarkRandPoisson2L10(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = randPoisson2Int(10)
+	}
+}
+
+func BenchmarkRandPoisson2L100(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = randPoisson2Int(100)
+	}
+}
+
+func BenchmarkRandPoisson2L200(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = randPoisson2Int(200)
+	}
+}
+
+func BenchmarkRandPoisson2L1000(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = randPoisson2Int(730)
+	}
+}
+
+func TestRandPoiss2(t *testing.T) {
+	rand.Seed(time.Now().UnixNano())
+	lmd := float64(20)
+	m := make([]int, 100)
+	for i := 0; i < 100000; i++ {
+		r := randPoisson2Int(lmd)
+		m[r]++
+	}
+	t.Log(m)
 }

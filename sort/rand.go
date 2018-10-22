@@ -5,21 +5,59 @@ import (
 	"math/rand"
 )
 
-func randn(max float64, f func(float64) float64) int {
-	x := rand.Float64()
-	return int(f(x) * max)
+func randNormInt(max int) int {
+	u1 := rand.Float64()
+	u2 := rand.Float64()
+
+	R := math.Sqrt(2 * math.Log(1/u1))
+	th := 2 * math.Pi * u2
+
+	r := R * math.Cos(th)
+
+	var f4Sigma float64 = 4
+
+	mag := float64(max) / (2 * f4Sigma)
+
+	ri := int((r + 4) * mag)
+	if ri > max {
+		return max
+	}
+	if ri < 0 {
+		return 0
+	}
+
+	return ri
 }
 
-func gauss(sig float64, mu float64) func(float64) float64 {
-	_1_d_sqrt_2pi_sig := float64(1) / (math.Sqrt(2*math.Pi) * sig)
+func randPoissonInt(lmd float64) int {
+	expLmd := math.Exp(-lmd)
 
-	_2sig2 := 2 * sig * sig
-
-	return func(x float64) float64 {
-		if x < 0.0 || x > 1.0 {
-			return 0.0
+	PDF := func(k int) float64 {
+		var pdf float64 = 1
+		for i := 1; i <= k; i++ {
+			pdf *= (lmd / float64(i))
 		}
-		y := _1_d_sqrt_2pi_sig * math.Exp(-1*(x-mu)*(x-mu)/_2sig2)
-		return y
+		return pdf * expLmd
 	}
+
+	u := rand.Float64()
+
+	cdf := expLmd
+	k := 0
+	for u >= cdf {
+		k++
+		cdf += PDF(k)
+	}
+	return k
+}
+
+func randPoisson2Int(lmd float64) int {
+	limit := math.Exp(-lmd)
+	prod := rand.Float64()
+
+	var n int
+	for n = 0; prod >= limit; n++ {
+		prod *= rand.Float64()
+	}
+	return n
 }
