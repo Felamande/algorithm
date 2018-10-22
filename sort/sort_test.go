@@ -151,3 +151,38 @@ func TestRandGeo(t *testing.T) {
 	}
 	t.Log(m)
 }
+
+func BenchmarkRandPoisson3L10(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = randPoisson3Int(10)
+	}
+}
+
+func BenchmarkRandPoisson3L100(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = randPoisson3Int(100)
+	}
+}
+
+func BenchmarkRandPoisson3L200(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = randPoisson3Int(200)
+	}
+}
+
+func BenchmarkRandPoisson3L500(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = randPoisson3Int(500)
+	}
+}
+
+func TestRandPoiss3(t *testing.T) {
+	rand.Seed(time.Now().UnixNano())
+	lmd := float64(20)
+	m := make([]int, 100)
+	for i := 0; i < 100000; i++ {
+		r := randPoisson3Int(lmd)
+		m[r]++
+	}
+	t.Log(m)
+}

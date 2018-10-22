@@ -62,6 +62,35 @@ func randPoisson2Int(lmd float64) int {
 	return n
 }
 
+func randPoisson3Int(lmd float64) int {
+	var r, x, m float64
+
+	pi := math.Pi
+	sqrtLmd := math.Sqrt(lmd)
+	logLmd := math.Log(lmd)
+
+	var gx, fm float64
+
+	randf := rand.Float64
+	for {
+		for {
+			x = lmd + sqrtLmd*math.Tan(pi*(randf()-1.0/2.0))
+			if x >= 0 {
+				break
+			}
+		}
+		gx = sqrtLmd / (pi * ((x-lmd)*(x-lmd) + lmd))
+		m = math.Floor(x)
+		lgammaMp1, sign := math.Lgamma(m + 1)
+		fm = math.Exp(m*logLmd - lmd - lgammaMp1*float64(sign))
+		r = fm / gx / 2.4
+		if randf() <= r {
+			break
+		}
+	}
+	return int(m)
+}
+
 func randGeoInt(p float64) int {
 	if p > 1 || p < 0 {
 		return 0
