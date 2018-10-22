@@ -107,9 +107,9 @@ func BenchmarkRandPoisson2L200(b *testing.B) {
 	}
 }
 
-func BenchmarkRandPoisson2L1000(b *testing.B) {
+func BenchmarkRandPoisson2L500(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = randPoisson2Int(730)
+		_ = randPoisson2Int(500)
 	}
 }
 
@@ -119,6 +119,34 @@ func TestRandPoiss2(t *testing.T) {
 	m := make([]int, 100)
 	for i := 0; i < 100000; i++ {
 		r := randPoisson2Int(lmd)
+		m[r]++
+	}
+	t.Log(m)
+}
+
+func BenchmarkRandGeoP01(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = randGeoInt(0.1)
+	}
+}
+func BenchmarkRandGeoP001(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = randGeoInt(0.01)
+	}
+}
+
+func BenchmarkRandGeoP099(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = randGeoInt(0.99)
+	}
+}
+
+func TestRandGeo(t *testing.T) {
+	rand.Seed(time.Now().UnixNano())
+	p := 0.9
+	m := make([]int, 100)
+	for i := 0; i < 100000000; i++ {
+		r := randGeoInt(p)
 		m[r]++
 	}
 	t.Log(m)

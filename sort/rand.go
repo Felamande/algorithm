@@ -61,3 +61,24 @@ func randPoisson2Int(lmd float64) int {
 	}
 	return n
 }
+
+func randGeoInt(p float64) int {
+	if p > 1 || p < 0 {
+		return 0
+	}
+
+	n := 0
+
+	for {
+		r := rand.Float64()
+		n++
+		if r <= p {
+			break
+		}
+	}
+	return n
+}
+
+func randBinaryInt(n int, p float64) int {
+	return 0
+}

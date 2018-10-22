@@ -1,0 +1,15 @@
+goos: windows
+goarch: amd64
+CPU: i5-3210m
+
+BenchmarkRandNorm-4             10000000               113 ns/op               0 B/op          0 allocs/op
+BenchmarkRandPoissonL10-4        5000000               324 ns/op               0 B/op          0 allocs/op
+BenchmarkRandPoissonL100-4        100000             23251 ns/op               0 B/op          0 allocs/op
+BenchmarkRandPoissonL200-4         20000             93705 ns/op               0 B/op          0 allocs/op
+BenchmarkRandPoisson2L10-4       5000000               382 ns/op               0 B/op          0 allocs/op
+BenchmarkRandPoisson2L100-4       500000              3060 ns/op               0 B/op          0 allocs/op
+BenchmarkRandPoisson2L200-4       200000              6005 ns/op               0 B/op          0 allocs/op
+BenchmarkRandPoisson2L500-4       100000             15010 ns/op               0 B/op          0 allocs/op
+BenchmarkRandGeoP01-4            5000000               318 ns/op               0 B/op          0 allocs/op
+BenchmarkRandGeoP001-4            500000              2984 ns/op               0 B/op          0 allocs/op
+BenchmarkRandGeoP099-4          50000000              34.7 ns/op               0 B/op          0 allocs/op
