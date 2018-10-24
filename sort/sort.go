@@ -130,10 +130,12 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 	for N := 80000; N < 80000*1<<7; N *= 2 {
 		ss := makeInts(func(int) int { return randNormInt(1000) }, N)
+
 		// ss = makeInts(func(i int) int { return i }, N)
 		// ss = makeInts(func(i int) int { return 1 }, N)
 		// ss = makeInts(func(i int) int { return N - i }, N)
 		// ss = makeInts2(1, 2, 4, 3, 5, 6, 8, 7)
+
 		for _, f := range []sortFn{sysSort, shSortd2, shSortAr1, shSort255, shSort248} {
 			s := ss.Clone()
 			dt := benchmark(func() { f(s) }, 1)

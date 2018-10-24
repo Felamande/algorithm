@@ -62,19 +62,19 @@ func BenchmarkRandNorm(b *testing.B) {
 
 func BenchmarkRandPoissonL10(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = randPoissonInt(10)
+		_ = randPoissonInt(10)(0)
 	}
 }
 
 func BenchmarkRandPoissonL100(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = randPoissonInt(100)
+		_ = randPoissonInt(100)(0)
 	}
 }
 
 func BenchmarkRandPoissonL200(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = randPoissonInt(200)
+		_ = randPoissonInt(200)(0)
 	}
 }
 
@@ -83,7 +83,7 @@ func TestRandPoiss(t *testing.T) {
 	lmd := float64(20)
 	m := make([]int, 100)
 	for i := 0; i < 100000; i++ {
-		r := randPoissonInt(lmd)
+		r := randPoissonInt(lmd)(0)
 		m[r]++
 	}
 	t.Log(m)
@@ -91,25 +91,25 @@ func TestRandPoiss(t *testing.T) {
 
 func BenchmarkRandPoisson2L10(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = randPoisson2Int(10)
+		_ = randPoisson2Int(10)(0)
 	}
 }
 
 func BenchmarkRandPoisson2L100(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = randPoisson2Int(100)
+		_ = randPoisson2Int(100)(0)
 	}
 }
 
 func BenchmarkRandPoisson2L200(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = randPoisson2Int(200)
+		_ = randPoisson2Int(200)(0)
 	}
 }
 
 func BenchmarkRandPoisson2L500(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = randPoisson2Int(500)
+		_ = randPoisson2Int(500)(0)
 	}
 }
 
@@ -118,7 +118,7 @@ func TestRandPoiss2(t *testing.T) {
 	lmd := float64(20)
 	m := make([]int, 100)
 	for i := 0; i < 100000; i++ {
-		r := randPoisson2Int(lmd)
+		r := randPoisson2Int(lmd)(0)
 		m[r]++
 	}
 	t.Log(m)
@@ -126,18 +126,18 @@ func TestRandPoiss2(t *testing.T) {
 
 func BenchmarkRandGeoP01(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = randGeoInt(0.1)
+		_ = randGeoInt(0.1)(0)
 	}
 }
 func BenchmarkRandGeoP001(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = randGeoInt(0.01)
+		_ = randGeoInt(0.01)(0)
 	}
 }
 
 func BenchmarkRandGeoP099(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = randGeoInt(0.99)
+		_ = randGeoInt(0.99)(0)
 	}
 }
 
@@ -146,7 +146,7 @@ func TestRandGeo(t *testing.T) {
 	p := 0.9
 	m := make([]int, 100)
 	for i := 0; i < 100000000; i++ {
-		r := randGeoInt(p)
+		r := randGeoInt(p)(0)
 		m[r]++
 	}
 	t.Log(m)
@@ -154,25 +154,25 @@ func TestRandGeo(t *testing.T) {
 
 func BenchmarkRandPoisson3L10(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = randPoisson3Int(10)
+		_ = randPoisson3Int(10)(0)
 	}
 }
 
 func BenchmarkRandPoisson3L100(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = randPoisson3Int(100)
+		_ = randPoisson3Int(100)(0)
 	}
 }
 
 func BenchmarkRandPoisson3L200(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = randPoisson3Int(200)
+		_ = randPoisson3Int(200)(0)
 	}
 }
 
 func BenchmarkRandPoisson3L500(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = randPoisson3Int(500)
+		_ = randPoisson3Int(500)(0)
 	}
 }
 
@@ -181,7 +181,7 @@ func TestRandPoiss3(t *testing.T) {
 	lmd := float64(20)
 	m := make([]int, 100)
 	for i := 0; i < 100000; i++ {
-		r := randPoisson3Int(lmd)
+		r := randPoisson3Int(lmd)(0)
 		m[r]++
 	}
 	t.Log(m)
@@ -213,4 +213,45 @@ func TestRandGeo2(t *testing.T) {
 		m[r]++
 	}
 	t.Log(m)
+func TestExpAndVar(t *testing.T) {
+	rand.Seed(time.Now().UnixNano())
+
+	smpSize := 10000
+	rndf := randPoisson2Int(20)
+
+	m := randMap(smpSize, 1000, rndf)
+	ex, dx := ExpAndVar(smpSize, m)
+	t.Logf("Ex=%f, Dx=%f\n", ex, dx)
+
+	m2 := randMap(smpSize, 1000, rndf)
+	ex2, dx2 := ExpAndVar(smpSize, m2)
+	t.Logf("Ex=%f, Dx=%f\n", ex2, dx2)
+}
+
+func TestRandDescreteInt(t *testing.T) {
+	rand.Seed(time.Now().UnixNano())
+	rf := randDiscreteInt([]float64{0.5, 0.25, 0.25}, []rndFn{N(0), N(1), rand.Intn})
+
+	m := make([]int, 10)
+	for i := 0; i < 100000; i++ {
+		r := rf(10)
+		m[r]++
+	}
+	t.Log(m)
+}
+
+func TestRandAscendInt(t *testing.T) {
+	N := 30
+	s := make([]int, N)
+	rf := randAscendInt(3, rand.Intn)
+	for i := 0; i < N; i++ {
+		s[i] = rf(0)
+	}
+	t.Log(s)
+}
+
+func N(n int) func(int) int {
+	return func(int) int {
+		return n
+	}
 }
