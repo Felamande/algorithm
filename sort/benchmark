@@ -17,3 +17,20 @@ BenchmarkRandPoisson3L10-4       3000000               532 ns/op               0
 BenchmarkRandPoisson3L100-4      3000000               549 ns/op               0 B/op          0 allocs/op
 BenchmarkRandPoisson3L200-4      3000000               552 ns/op               0 B/op          0 allocs/op
 BenchmarkRandPoisson3L500-4      3000000               554 ns/op               0 B/op          0 allocs/op
+
+CPU: i5-8500
+BenchmarkRandNorm-6             20000000                72.1 ns/op             0 B/op          0 allocs/op
+BenchmarkRandPoissonL10-6       10000000               123 ns/op               0 B/op          0 allocs/op
+BenchmarkRandPoissonL100-6        300000              5249 ns/op               0 B/op          0 allocs/op
+BenchmarkRandPoissonL200-6        100000             20515 ns/op               0 B/op          0 allocs/op
+BenchmarkRandPoisson2L10-6       5000000               247 ns/op               0 B/op          0 allocs/op
+BenchmarkRandPoisson2L100-6      1000000              2031 ns/op               0 B/op          0 allocs/op
+BenchmarkRandPoisson2L200-6       300000              4012 ns/op               0 B/op          0 allocs/op
+BenchmarkRandPoisson2L500-6       200000              9983 ns/op               0 B/op          0 allocs/op
+BenchmarkRandGeoP01-6           10000000               200 ns/op               0 B/op          0 allocs/op
+BenchmarkRandGeoP001-6           1000000              1964 ns/op               0 B/op          0 allocs/op
+BenchmarkRandGeoP099-6          100000000               23.3 ns/op             0 B/op          0 allocs/op
+BenchmarkRandPoisson3L10-6       5000000               332 ns/op               0 B/op          0 allocs/op
+BenchmarkRandPoisson3L100-6      5000000               342 ns/op               0 B/op          0 allocs/op
+BenchmarkRandPoisson3L200-6      5000000               344 ns/op               0 B/op          0 allocs/op
+BenchmarkRandPoisson3L500-6      5000000               343 ns/op               0 B/op          0 allocs/op
