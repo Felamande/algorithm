@@ -119,6 +119,11 @@ func randGeoInt(p float64) func(max int) int {
 	}
 }
 
+func randGeo2Int(p float64) int {
+	ln := math.Log
+	return int(math.Ceil(ln(1-rand.Float64()) / ln(1-p)))
+}
+
 func randBinaryInt(n int, p float64) int {
 	return 0
 }

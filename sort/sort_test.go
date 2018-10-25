@@ -187,6 +187,32 @@ func TestRandPoiss3(t *testing.T) {
 	t.Log(m)
 }
 
+func BenchmarkRandGeo2P01(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = randGeo2Int(0.1)
+	}
+}
+func BenchmarkRandGeo2P001(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = randGeo2Int(0.01)
+	}
+}
+
+func BenchmarkRandGeo2P099(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = randGeo2Int(0.99)
+	}
+}
+
+func TestRandGeo2(t *testing.T) {
+	rand.Seed(time.Now().UnixNano())
+	p := 0.9
+	m := make([]int, 100)
+	for i := 0; i < 100000000; i++ {
+		r := randGeo2Int(p)
+		m[r]++
+	}
+	t.Log(m)
 func TestExpAndVar(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 
