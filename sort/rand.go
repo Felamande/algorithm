@@ -81,7 +81,8 @@ func randPoisson3Int(lmd float64) func(max int) int {
 
 		for {
 			for {
-				x = lmd + sqrtLmd*math.Tan(pi*(randf()-1.0/2.0))
+				rnd := randf()
+				x = lmd + sqrtLmd*math.Tan(pi*(rnd-1.0/2.0))
 				if x >= 0 {
 					break
 				}
@@ -140,6 +141,17 @@ func ExpAndVar(smpSize int, m map[int]int) (Ex, Dx float64) {
 	return Ex, Ex2 - Ex*Ex
 }
 
+func expAndVar(arr []float64) (Ex, Dx float64) {
+	n := len(arr)
+	var Ex2 float64
+	for _, v := range arr {
+		p := 1 / float64(n)
+		Ex += v * p
+		Ex2 += v * v * p
+	}
+	return Ex, Ex2 - Ex*Ex
+}
+
 func randDiscreteInt(pdf []float64, rndf []rndFn) func(max int) int {
 
 	cdf := make([]float64, len(pdf)+1)
@@ -169,4 +181,20 @@ func randAscendInt(step int, rf rndFn) func(idx int) int {
 		r += rf(step)
 		return r
 	}
+}
+
+func randNormZigguratInt() int {
+	return 0
+}
+
+func randNorm() float64 {
+	u1 := rand.Float64()
+	u2 := rand.Float64()
+
+	R := math.Sqrt(2 * math.Log(1/u1))
+	th := 2 * math.Pi * u2
+
+	r := R * math.Cos(th)
+
+	return r
 }
