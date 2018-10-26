@@ -218,7 +218,7 @@ func TestExpAndVar(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 
 	smpSize := 10000
-	rndf := randPoisson2Int(20)
+	rndf := randPoisson3Int(20)
 
 	m := randMap(smpSize, 1000, rndf)
 	ex, dx := ExpAndVar(smpSize, m)
@@ -257,6 +257,16 @@ func TestRandAscendInt(t *testing.T) {
 		s[i] = rf(0)
 	}
 	t.Log(s)
+}
+
+func TestRandNormFloat(t *testing.T) {
+	N := 100000
+	arr := make([]float64, N)
+	for i := 0; i < N; i++ {
+		arr[i] = randNorm()
+	}
+	Ex, Dx := expAndVar(arr)
+	t.Logf("Ex=%f, Dx=%f\n", Ex, Dx)
 }
 
 func N(n int) func(int) int {

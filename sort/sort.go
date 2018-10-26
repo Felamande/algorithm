@@ -256,3 +256,5 @@ func seqt(t float64) func(k int) int {
 		return int(math.Floor(math.Pow(t, float64(k))))
 	}
 }
+
+func sortCompare() {}
