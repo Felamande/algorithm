@@ -213,6 +213,7 @@ func TestRandGeo2(t *testing.T) {
 		m[r]++
 	}
 	t.Log(m)
+}
 func TestExpAndVar(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 
@@ -228,9 +229,17 @@ func TestExpAndVar(t *testing.T) {
 	t.Logf("Ex=%f, Dx=%f\n", ex2, dx2)
 }
 
+func BenchmarkRandDescreteInt(b *testing.B) {
+	rf := randDiscreteInt([]float64{0.5, 0.25, 0.25}, []rndFn{N(0), N(1), N(3)})
+
+	for i := 0; i < b.N; i++ {
+		_ = rf(10)
+	}
+}
+
 func TestRandDescreteInt(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
-	rf := randDiscreteInt([]float64{0.5, 0.25, 0.25}, []rndFn{N(0), N(1), rand.Intn})
+	rf := randDiscreteInt([]float64{0.5, 0.25, 0.25}, []rndFn{N(0), N(1), N(3)})
 
 	m := make([]int, 10)
 	for i := 0; i < 100000; i++ {
